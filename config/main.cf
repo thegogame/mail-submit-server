@@ -1,0 +1,56 @@
+# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+
+# Debian specific:  Specifying a file name will cause the first
+# line of that file to be used as the name.  The Debian default
+# is /etc/mailname.
+#myorigin = /etc/mailname
+
+smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
+biff = no
+
+# appending .domain is the MUA's job.
+append_dot_mydomain = no
+
+# Uncomment the next line to generate "delayed mail" warnings
+#delay_warning_time = 4h
+
+readme_directory = no
+
+# TLS parameters
+smtpd_tls_cert_file = /etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file = /etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_use_tls = yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
+# information on enabling SSL in the smtp client.
+
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+myhostname = 
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+myorigin = /etc/mailname
+mydestination = 
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mailbox_size_limit = 0
+# 100MB message size limit
+message_size_limit = 104857600
+recipient_delimiter = +
+inet_interfaces = all
+home_mailbox = Maildir/
+mailbox_command = 
+
+# AuthSMTP settings
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_sasl_mechanism_filter =
+smtp_sasl_security_options =
+relayhost = [mail.authsmtp.com]
+# The above configuration use's the default 'plain' SASL authentication mechanism but you have the option of PLAIN, LOGIN, CRAM-MD5 and DIGEST-MD5 but to use those is an advanced Postfix topic that should only be approached by advanced users.
+# This next step is optional - the default SMTP port is 25 but some ISPs block this port so if you wish to use one of the alternative ports (23, 26, 2525) please add ':' and the alternative port to the end of the 'relayhost'line, so it should read as follows:
+# relayhost = mail.authsmtp.com:2525
+# If you wish to send your messages using TLS/SSL you will need to also add the two following lines:
+# smtp_tls_security_level = encrypt
+# smtp_tls_mandatory_ciphers = high
+# IMPORTANT: If you do wish to send your messages using SSL you will also need to login to the Control Panel and enable SSL on your account.

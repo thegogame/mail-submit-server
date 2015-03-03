@@ -1,0 +1,14 @@
+
+ec2_public_dns = 'ec2-12-34-56-789.us-west-1.compute.amazonaws.com'
+
+# get from 1password
+authsmtp_username = 'user'
+authsmtp_password = 'pw'
+# your email address
+smtp_test_recipient = 'me@thegogame.com'
+# use htpasswd generator
+htpasswd = 'user:encryptedpw'
+
+hosts = ['12.345.67.89']
+user = 'ubuntu'
+key_filename = '~/.ec2/key-pair.pem'
